@@ -122,6 +122,8 @@ public class BufferedParser implements Parser {
 			return parseAssignStmt();
 		case IF:
 			return parseIfStmt();
+		case FOR:
+			return parseForStmt();
 		}
 	}
 
@@ -166,6 +168,15 @@ public class BufferedParser implements Parser {
 		consume(ELSE); // or nextToken() since ELSE has already been recognized
 		var elseBlock = parseBlock();
 		return new IfStmt(exp, thenBlock, elseBlock);
+	}
+
+	private ForStmt parseForStmt() throws ParserException {
+		consume(FOR);
+		var ident = parseVarIdent();
+		consume(IN);
+		var range = parseRangeLit();
+		var block = parseBlock();
+		return new ForStmt(ident, range, block);
 	}
 
 	/* parses a block of statements

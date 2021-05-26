@@ -53,6 +53,8 @@ public class BufferedTokenizer implements Tokenizer {
 		symbols.put("{", OPEN_BLOCK);
 		symbols.put("}", CLOSE_BLOCK);
 		
+		keywords.put("for", FOR);
+		keywords.put("in", IN);
 		keywords.put("print", PRINT);
 		keywords.put("var", VAR);
 		keywords.put("false", BOOL);
