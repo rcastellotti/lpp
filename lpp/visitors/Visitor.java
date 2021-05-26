@@ -45,6 +45,8 @@ public interface Visitor<T> {
 
 	T visitPairLit(Exp left, Exp right);
 
+	T visitRangeLiteral(Exp left, Exp right);
+
 	T visitFst(Exp exp);
 
 	T visitSnd(Exp exp);

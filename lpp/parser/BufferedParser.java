@@ -260,6 +260,8 @@ public class BufferedParser implements Parser {
 			return parseFst();
 		case SND:
 			return parseSnd();
+		case START_RANGE:
+			return parseRangeLit();
 		}
 	}
 
@@ -327,6 +329,16 @@ public class BufferedParser implements Parser {
 		consume(END_PAIR);
 		return new PairLit(left, right);
 	}
+
+	private RangeLiteral parseRangeLit() throws ParserException {
+		consume(START_RANGE);
+		var left = parseExp();
+		consume(RANGE_SEP);
+		var right = parseExp();
+		consume(END_RANGE);
+		return new RangeLiteral(left, right);
+	}
+
 
 	/* parses expressions delimited by parentheses
 	 * Atom ::= '(' Exp ')'

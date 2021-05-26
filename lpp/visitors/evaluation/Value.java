@@ -13,4 +13,8 @@ public interface Value {
 	default PairValue toProd() {
 		throw new EvaluatorException("Expecting a pair");
 	}
+
+	default RangeValue toRange() {
+		throw new EvaluatorException("Expecting a range");
+	}
 }

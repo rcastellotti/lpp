@@ -151,6 +151,11 @@ public class Eval implements Visitor<Value> {
 	}
 
 	@Override
+	public RangeValue visitRangeLiteral(Exp left, Exp right) {
+		return new RangeValue(left.accept(this).toInt(), right.accept(this).toInt());
+	}
+
+	@Override
 	public Value visitFst(Exp exp) {
 		return exp.accept(this).toProd().getFstVal();
 	}

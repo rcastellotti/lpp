@@ -151,6 +151,12 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	@Override
+	public RangeType visitRangeLiteral(Exp left, Exp right) {
+		this.checkBinOp(left, right, INT);
+		return new RangeType();
+	}
+
+	@Override
 	public Type visitFst(Exp exp) {
 		return exp.accept(this).getFstProdType();
 	}

@@ -43,6 +43,9 @@ public class BufferedTokenizer implements Tokenizer {
 		symbols.put("!=", NEQ);
 		symbols.put("<<", START_PAIR);
 		symbols.put(">>", END_PAIR);
+		symbols.put("[", START_RANGE);
+		symbols.put("]", END_RANGE);
+		symbols.put(":", RANGE_SEP);
 		symbols.put(";", STMT_SEP);
 		symbols.put(",", EXP_SEP);
 		symbols.put("(", OPEN_PAR);
