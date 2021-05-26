@@ -3,19 +3,36 @@
 type var_id = Name of string;;
 
 (* AST of expressions *)
-type exp = Add of exp*exp | Mul of exp*exp | And of exp*exp | Eq of exp*exp | Pair of exp*exp | Fst of exp | Snd of exp | Sign of exp | Not of exp | Num of int | Bool of bool | Var of var_id 
-(* added nodes *)
-  | Neq of exp*exp | Range of exp*exp | Bounds of exp;;
+type exp = Add of exp*exp 
+          | Mul of exp*exp 
+          | And of exp*exp 
+          | Eq of exp*exp 
+          | Pair of exp*exp 
+          | Fst of exp 
+          | Snd of exp 
+          | Sign of exp 
+          | Not of exp 
+          | Num of int 
+          | Bool of bool 
+          | Var of var_id 
+          (* added nodes *)
+          | Neq of exp*exp 
+          | Range of exp*exp 
+          | Bounds of exp;;
 
 (* AST of statements and sequence of statements, mutually recursive *)
 type
-  stmt = Assign of var_id*exp | Dec of var_id*exp | Print of exp | If of exp*stmt_seq | IfElse of exp*stmt_seq*stmt_seq
-(* added node *)
-  | For of var_id*exp*stmt_seq
+  stmt = Assign of var_id*exp 
+        | Dec of var_id*exp 
+        | Print of exp 
+        | If of exp*stmt_seq 
+        | IfElse of exp*stmt_seq*stmt_seq
+        (* added node *)
+        | For of var_id*exp*stmt_seq
 
 and
-
-  stmt_seq = SingleStmt of stmt | MoreStmt of stmt * stmt_seq;;
+  stmt_seq = SingleStmt of stmt 
+            | MoreStmt of stmt * stmt_seq;;
 
 (* AST of programs *)
 type prog = Prog of stmt_seq;;
@@ -27,7 +44,10 @@ type prog = Prog of stmt_seq;;
     Prod(Int,Prod(Int,Bool)) is Int * (Int * Bool)
 *)
 
-type static_type = Int | Bool | Prod of static_type*static_type | Range;;
+type static_type = Int 
+                  | Bool 
+                  | Prod of static_type*static_type 
+                  | Range;;
 
 (* static environments *)
 
