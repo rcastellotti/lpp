@@ -141,6 +141,11 @@ public class Eval implements Visitor<Value> {
 	}
 
 	@Override
+	public BoolValue visitNeq(Exp left, Exp right) {
+		return new BoolValue(!(left.accept(this).equals(right.accept(this))));
+	}
+
+	@Override
 	public PairValue visitPairLit(Exp left, Exp right) {
 		return new PairValue(left.accept(this), right.accept(this));
 	}

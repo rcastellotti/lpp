@@ -40,6 +40,7 @@ public class BufferedTokenizer implements Tokenizer {
 		symbols.put("!", NOT);
 		symbols.put("&&", AND);
 		symbols.put("==", EQ);
+		symbols.put("!=", NEQ);
 		symbols.put("<<", START_PAIR);
 		symbols.put(">>", END_PAIR);
 		symbols.put(";", STMT_SEP);

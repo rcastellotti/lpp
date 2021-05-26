@@ -15,6 +15,8 @@ public interface Visitor<T> {
 
 	T visitEq(Exp left, Exp right);
 
+	T visitNeq(Exp left, Exp right);
+
 	T visitMoreStmt(Stmt first, StmtSeq rest);
 
 	T visitMul(Exp left, Exp right);

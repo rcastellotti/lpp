@@ -17,6 +17,12 @@ public class TypeCheck implements Visitor<Type> {
 		type.checkEqual(right.accept(this));
 	}
 
+	// useful in the event of multiple types 
+	public PrimType checkEquality(Exp left, Exp right) {
+		left.accept(this).checkEqual(right.accept(this));
+		return BOOL;
+	}
+
 	// static semantics for programs; no value returned by the visitor
 
 	@Override
@@ -131,8 +137,12 @@ public class TypeCheck implements Visitor<Type> {
 
 	@Override
 	public PrimType visitEq(Exp left, Exp right) {
-		left.accept(this).checkEqual(right.accept(this));
-		return BOOL;
+		return this.checkEquality(left, right);
+	}
+
+	@Override
+	public PrimType visitNeq(Exp left, Exp right) {
+		return this.checkEquality(left, right);
 	}
 
 	@Override
@@ -149,5 +159,4 @@ public class TypeCheck implements Visitor<Type> {
 	public Type visitSnd(Exp exp) {
 		return exp.accept(this).getSndProdType();
 	}
-
 }

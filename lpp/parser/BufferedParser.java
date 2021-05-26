@@ -183,23 +183,28 @@ public class BufferedParser implements Parser {
 	 * Exp ::= Eq ('&&' Eq)* 
 	 */
 	private Exp parseExp() throws ParserException {
-		var exp = parseEq();
+		var exp = parseEquality();
 		while (buf_tokenizer.tokenType() == AND) {
 			nextToken();
-			exp = new And(exp, parseEq());
+			exp = new And(exp, parseEquality());
 		}
 		return exp;
 	}
 
 	/*
 	 * parses expressions, starting from the lowest precedence operator EQ which is left-associative
-	 * Eq ::= Add ('==' Add)*
+	 * Eq ::= Add '==' Eq | Add '!=' Eq
 	 */
-	private Exp parseEq() throws ParserException {
+	private Exp parseEquality() throws ParserException {
 		var exp = parseAdd();
-		while (buf_tokenizer.tokenType() == EQ) {
+		var op_type = buf_tokenizer.tokenType();
+		while ( op_type == EQ || op_type == NEQ) {
 			nextToken();
-			exp = new Eq(exp, parseAdd());
+			if(op_type == EQ)
+				exp = new Eq(exp, parseAdd());
+			else
+				exp = new Neq(exp, parseAdd());
+			op_type = buf_tokenizer.tokenType();
 		}
 		return exp;
 	}

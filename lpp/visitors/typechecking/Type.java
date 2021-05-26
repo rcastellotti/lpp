@@ -2,7 +2,7 @@ package lpp.visitors.typechecking;
 
 public interface Type {
 	default Type checkEqual(Type found) throws TypecheckerException {
-		if (!equals(found))
+		if (!this.equals(found))
 			throw new TypecheckerException(found.toString(), toString());
 		return this;
 	}
