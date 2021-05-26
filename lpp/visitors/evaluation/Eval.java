@@ -96,6 +96,11 @@ public class Eval implements Visitor<Value> {
 	// dynamic semantics of expressions; a value is returned by the visitor
 
 	@Override
+	public Value visitBoundsOp(Exp exp) {
+		return exp.accept(this).toRange().getBounds();
+	}
+
+	@Override
 	public IntValue visitAdd(Exp left, Exp right) {
 		return new IntValue(left.accept(this).toInt() + right.accept(this).toInt());
 	}

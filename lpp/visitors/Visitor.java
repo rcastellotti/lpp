@@ -23,6 +23,8 @@ public interface Visitor<T> {
 
 	T visitPrintStmt(Exp exp);
 
+	T visitBoundsOp(Exp exp);
+
 	T visitProg(StmtSeq stmtSeq);
 
 	T visitSign(Exp exp);

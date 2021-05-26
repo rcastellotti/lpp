@@ -1,5 +1,5 @@
 package lpp.visitors.typechecking;
 
 public enum PrimType implements Type {
-	BOOL, INT;
+	BOOL, INT, RANGE;
 }

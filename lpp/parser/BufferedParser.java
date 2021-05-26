@@ -108,10 +108,10 @@ public class BufferedParser implements Parser {
 	}
 
 	/* parses a statement
-	 * Stmt ::= 'var'? IDENT '=' Exp | 'print' Exp |  'if' '(' Exp ')' Block ('else' Block)? 
+	 * Stmt ::= 'var'? IDENT '=' Exp | 'print' Exp |  'if' '(' Exp ')' Block ('else' Block)?
 	 */
 	private Stmt parseStmt() throws ParserException {
-		switch (buf_tokenizer.tokenType()) {
+		switch(buf_tokenizer.tokenType()) {
 		default:
 			unexpectedTokenError();
 		case PRINT:
@@ -234,9 +234,9 @@ public class BufferedParser implements Parser {
 		}
 		return exp;
 	}
-
+	
 	/* parses expressions of type Atom
-	 * Atom ::= '<<' Exp ',' Exp '>>' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | IDENT | '(' Exp ')'
+	 * Atom ::= '<<' Exp ',' Exp '>>' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | IDENT | '(' Exp ')' | '[' Exp ':' Exp ']' | 'bounds' RANGE | RANGE
 	 */
 	private Exp parseAtom() throws ParserException {
 		switch (buf_tokenizer.tokenType()) {
@@ -262,7 +262,14 @@ public class BufferedParser implements Parser {
 			return parseSnd();
 		case START_RANGE:
 			return parseRangeLit();
+		case BOUNDS:
+			return parseBounds();
 		}
+	}
+
+	private BoundsOp parseBounds() throws ParserException {
+		consume(BOUNDS);
+		return new BoundsOp(parseRangeLit());
 	}
 
 	// parses number literals

@@ -50,6 +50,8 @@ public class TypeCheck implements Visitor<Type> {
 		return null;
 	}
 
+	
+
 	@Override
 	public Type visitVarStmt(VarIdent ident, Exp exp) {
 		env.dec(ident, exp.accept(this));
@@ -151,9 +153,15 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	@Override
-	public RangeType visitRangeLiteral(Exp left, Exp right) {
+	public ProdType visitBoundsOp(Exp exp) {
+		RANGE.checkEqual(exp.accept(this));
+		return new ProdType(INT, INT);
+	}
+
+	@Override
+	public PrimType visitRangeLiteral(Exp left, Exp right) {
 		this.checkBinOp(left, right, INT);
-		return new RangeType();
+		return RANGE;
 	}
 
 	@Override

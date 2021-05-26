@@ -61,6 +61,7 @@ public class BufferedTokenizer implements Tokenizer {
 		keywords.put("else", ELSE);
 		keywords.put("fst", FST);
 		keywords.put("snd", SND);
+		keywords.put("bounds", BOUNDS);
 	}
 
 	static { 
