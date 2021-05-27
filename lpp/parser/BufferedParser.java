@@ -280,7 +280,7 @@ public class BufferedParser implements Parser {
 
 	private BoundsOp parseBounds() throws ParserException {
 		consume(BOUNDS);
-		return new BoundsOp(parseExp()); 
+		return new BoundsOp(parseAtom()); 
 	}
 
 	// parses number literals
