@@ -12,17 +12,16 @@ import java.io.InputStreamReader;
 
 import lpp.parser.ast.*;
 
-
 /*
 Prog ::= StmtSeq EOF
 StmtSeq ::= Stmt (';' StmtSeq)?
-Stmt ::= 'var'? IDENT '=' Exp | 'print' Exp |  'if' '(' Exp ')' Block ('else' Block)? 
+Stmt ::= 'var'? IDENT '=' Exp | 'print' Exp |  'if' '(' Exp ')' Block ('else' Block)? | 'for' IDENT 'in' Atom Block
 Block ::= '{' StmtSeq '}'
 Exp ::= Eq ('&&' Eq)* 
-Eq ::= Add ('==' Add)*
+Eq ::= Add ('==' Eq)? | Add ('!=' Eq)?
 Add ::= Mul ('+' Mul)*
 Mul::= Atom ('*' Atom)*
-Atom ::= '<<' Exp ',' Exp '>>' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | IDENT | '(' Exp ')'
+Atom ::= '<<' Exp ',' Exp '>>' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | IDENT | '(' Exp ')' | RANGE | bounds Atom | '[' Exp ':' Exp ']'
 */
 
 public class BufferedParser implements Parser {
@@ -108,7 +107,7 @@ public class BufferedParser implements Parser {
 	}
 
 	/* parses a statement
-	 * Stmt ::= 'var'? IDENT '=' Exp | 'print' Exp |  'if' '(' Exp ')' Block ('else' Block)?
+	 * Stmt ::= 'var'? IDENT '=' Exp | 'print' Exp |  'if' '(' Exp ')' Block ('else' Block)? | 'for' IDENT 'in' Atom Block
 	 */
 	private Stmt parseStmt() throws ParserException {
 		switch(buf_tokenizer.tokenType()) {
@@ -170,6 +169,10 @@ public class BufferedParser implements Parser {
 		return new IfStmt(exp, thenBlock, elseBlock);
 	}
 
+	/* parses the 'for' statement
+	 * Stmt ::= 'for' IDENT 'in' Atom Block
+	 */
+
 	private ForStmt parseForStmt() throws ParserException {
 		consume(FOR);
 		var ident = parseVarIdent();
@@ -204,12 +207,12 @@ public class BufferedParser implements Parser {
 
 	/*
 	 * parses expressions, starting from the lowest precedence operator EQ which is left-associative
-	 * Eq ::= Add '==' Eq | Add '!=' Eq
+	 * Eq ::= Add ('==' Eq)? | Add ('!=' Eq)?
 	 */
 	private Exp parseEquality() throws ParserException {
 		var exp = parseAdd();
 		var op_type = buf_tokenizer.tokenType();
-		while ( op_type == EQ || op_type == NEQ) {
+		while(op_type == EQ || op_type == NEQ) {
 			nextToken();
 			if(op_type == EQ)
 				exp = new Eq(exp, parseAdd());
@@ -247,7 +250,7 @@ public class BufferedParser implements Parser {
 	}
 	
 	/* parses expressions of type Atom
-	 * Atom ::= '<<' Exp ',' Exp '>>' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | IDENT | '(' Exp ')' | '[' Exp ':' Exp ']' | 'bounds' RANGE | RANGE
+	 * Atom ::= '<<' Exp ',' Exp '>>' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | IDENT | '(' Exp ')' | RANGE | bounds Atom | '[' Exp ':' Exp ']'
 	 */
 	private Exp parseAtom() throws ParserException {
 		switch (buf_tokenizer.tokenType()) {
@@ -278,6 +281,9 @@ public class BufferedParser implements Parser {
 		}
 	}
 
+	/* parses the 'bounds' operator
+	 * Atom ::= bounds Atom
+	 */
 	private BoundsOp parseBounds() throws ParserException {
 		consume(BOUNDS);
 		return new BoundsOp(parseAtom()); 
@@ -348,6 +354,10 @@ public class BufferedParser implements Parser {
 		return new PairLit(left, right);
 	}
 
+
+	/* parses the range literals
+	 * Atom ::= '[' Exp ':' Exp ']'
+	 */
 	private RangeLiteral parseRangeLit() throws ParserException {
 		consume(START_RANGE);
 		var left = parseExp();
