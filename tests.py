@@ -7,7 +7,7 @@ def test(dir_name, ntc = False):
             print(f"testing {f}")
             os.system(f"java lab11_05_14.Main -i {dir_name}/{f}")
 
-dirs=("failure/ntc", "failure/syntax","failure/type","failure/syntax","success/tc", "success")
+dirs=("failure/ntc", "failure/syntax","failure/type","failure/syntax","success/ntc", "success")
 
 for dir in dirs:
     test(f"tests/{dir}")

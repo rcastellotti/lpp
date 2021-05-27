@@ -174,9 +174,9 @@ public class BufferedParser implements Parser {
 		consume(FOR);
 		var ident = parseVarIdent();
 		consume(IN);
-		var range = parseRangeLit();
+		var exp = parseExp();
 		var block = parseBlock();
-		return new ForStmt(ident, range, block);
+		return new ForStmt(ident, exp, block);
 	}
 
 	/* parses a block of statements
@@ -280,7 +280,7 @@ public class BufferedParser implements Parser {
 
 	private BoundsOp parseBounds() throws ParserException {
 		consume(BOUNDS);
-		return new BoundsOp(parseRangeLit());
+		return new BoundsOp(parseExp()); 
 	}
 
 	// parses number literals

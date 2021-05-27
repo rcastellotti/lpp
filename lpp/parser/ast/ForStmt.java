@@ -7,23 +7,23 @@ import lpp.visitors.Visitor;
 public class ForStmt implements Stmt {
 
     private final VarIdentAST ident;
-    private final RangeLiteral range;
+    private final Exp exp;
 	private final Block block;
 
-	public ForStmt(VarIdentAST ident, RangeLiteral range, Block block) {
+	public ForStmt(VarIdentAST ident, Exp exp, Block block) {
         this.ident = requireNonNull(ident);
-		this.range = requireNonNull(range);
+		this.exp = requireNonNull(exp);
 		this.block = requireNonNull(block);
 	}
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "(" + ident + "," + range + "," + block + ")";
+		return getClass().getSimpleName() + "(" + ident + "," + exp + "," + block + ")";
 	}
 
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
-		return visitor.visitForStmt(ident, range, block);
+		return visitor.visitForStmt(ident, exp, block);
 	}
 
 }

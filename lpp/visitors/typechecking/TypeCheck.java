@@ -69,10 +69,10 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	@Override
-	public Type visitForStmt(VarIdent ident, RangeLiteral range, Block block) {
+	public Type visitForStmt(VarIdent ident, Exp exp, Block block) {
 		env.enterScope();
 		env.dec(ident, INT);
-		RANGE.checkEqual(range.accept(this));
+		RANGE.checkEqual(exp.accept(this));
 		env.enterScope();
 		block.accept(this);
 		env.exitScope();

@@ -2,7 +2,6 @@ package lpp.visitors;
 
 import lpp.parser.ast.Block;
 import lpp.parser.ast.Exp;
-import lpp.parser.ast.RangeLiteral;
 import lpp.parser.ast.Stmt;
 import lpp.parser.ast.StmtSeq;
 import lpp.parser.ast.VarIdent;
@@ -44,7 +43,7 @@ public interface Visitor<T> {
 
 	T visitIfStmt(Exp exp, Block thenBlock, Block elseBlock);
 
-	T visitForStmt(VarIdent ident, RangeLiteral range, Block block);
+	T visitForStmt(VarIdent ident, Exp exp, Block block);
 
 	T visitBlock(StmtSeq stmtSeq);
 

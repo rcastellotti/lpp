@@ -6,7 +6,6 @@ import lpp.environments.EnvironmentException;
 import lpp.environments.GenEnvironment;
 import lpp.parser.ast.Block;
 import lpp.parser.ast.Exp;
-import lpp.parser.ast.RangeLiteral;
 import lpp.parser.ast.VarIdent;
 import lpp.parser.ast.Stmt;
 import lpp.parser.ast.StmtSeq;
@@ -71,14 +70,12 @@ public class Eval implements Visitor<Value> {
 	}
 
 	@Override
-	public Value visitForStmt(VarIdent ident, RangeLiteral range, Block block) {
+	public Value visitForStmt(VarIdent ident, Exp exp, Block block) {
 		env.enterScope();
-		env.dec(ident, new IntValue(0));
-		for(int i:range.accept(this).toRange()) {
+		env.dec(ident, new IntValue(0));	
+		for(int i:exp.accept(this).toRange()) {
 			env.update(ident, new IntValue(i));
-			env.enterScope();
 			block.accept(this);
-			env.exitScope();
 		}
 		env.exitScope();
 		return null;
