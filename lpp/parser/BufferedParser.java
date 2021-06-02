@@ -76,6 +76,12 @@ public class BufferedParser implements Parser {
 	public BufferedParser(BufferedTokenizer tokenizer) {
 		this.buf_tokenizer = requireNonNull(tokenizer);
 	}
+	
+	@Override
+	public void close() throws IOException {
+		if (buf_tokenizer != null)
+			buf_tokenizer.close();
+	}
 
 	/* parses a program
 	 * Prog ::= StmtSeq EOF
@@ -86,12 +92,6 @@ public class BufferedParser implements Parser {
 		var prog = new ProgAST(parseStmtSeq());
 		match(EOF); // last token must have type EOF
 		return prog;
-	}
-
-	@Override
-	public void close() throws IOException {
-		if (buf_tokenizer != null)
-			buf_tokenizer.close();
 	}
 
 	/* parses a non empty sequence of statements, MoreStmt binary operator is right associative
@@ -177,7 +177,7 @@ public class BufferedParser implements Parser {
 		consume(FOR);
 		var ident = parseVarIdent();
 		consume(IN);
-		var exp = parseExp();
+		var exp = parseAtom();
 		var block = parseBlock();
 		return new ForStmt(ident, exp, block);
 	}
