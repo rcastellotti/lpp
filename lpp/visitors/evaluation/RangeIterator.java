@@ -15,10 +15,6 @@ class RangeIterator implements Iterator<Integer> {
         this.is_reversed = start > end;
 	}
 
-	RangeIterator(int end) {
-		this(0, end);
-	}
-
 	@Override
 	public boolean hasNext() {
         if(!this.is_reversed)

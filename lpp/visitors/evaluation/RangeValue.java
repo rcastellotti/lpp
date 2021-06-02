@@ -12,11 +12,6 @@ public class RangeValue implements Iterable<Integer>, Value {
 		this.end = end;
 	}
 
-	// ranges from 0 (inclusive) to end (exclusive) if end > 0 else ranges from 0 inclusive to end exclusive
-	public RangeValue(int end) {
-		this(0, end);
-	}
-
 	@Override
 	public RangeIterator iterator() {
 		return new RangeIterator(start, end);
