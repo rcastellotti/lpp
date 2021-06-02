@@ -9,11 +9,6 @@ public class BoundsOp extends UnaryOp {
 	}
 
 	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "(" + exp + ")";
-	}
-
-	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visitBoundsOp(exp);
 	}
