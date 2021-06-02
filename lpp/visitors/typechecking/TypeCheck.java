@@ -73,9 +73,8 @@ public class TypeCheck implements Visitor<Type> {
 		env.enterScope();
 		env.dec(ident, INT);
 		RANGE.checkEqual(exp.accept(this));
-		env.enterScope();
+		// env.enterScope() on this line is not needed since it's done in visitBlock()
 		block.accept(this);
-		env.exitScope();
 		env.exitScope();
 		return null;
 	}
@@ -106,7 +105,6 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	// static semantics of expressions; a type is returned by the visitor
-
 	@Override
 	public PrimType visitAdd(Exp left, Exp right) {
 		checkBinOp(left, right, INT);
