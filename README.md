@@ -1,5 +1,7 @@
 # Progetto finale LPO a.a. 2020-'21
 
+Castellotti Roberto, Fontana Fabio, Fontana Federico
+
 ## Contenuto del repository
 
 * `semantica-statica.ml` : semantica statica del linguaggio esteso, definita in OCaml
