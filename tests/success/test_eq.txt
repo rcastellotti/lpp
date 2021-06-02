@@ -5,4 +5,4 @@ print 1==1; // true
 print 1==2; // false
 print true==true; // true
 print true!= false; // true
-print true!=true; // false
+print true!=true // false
