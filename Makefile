@@ -3,5 +3,4 @@ clean:
 
 test: clean
 	javac lpp/Main.java
-	python tests.py
-	find . -type f -path "./lpp/*/*" -name "*.class" -exec rm -f {} \;
+	python3 tests.py
